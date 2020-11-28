@@ -74,7 +74,6 @@ public:
 
     enum Motor_Error_t
     {
-        ERROR_NONE = 0x00000000,
         ERROR_PHASE_RESISTANCE_OUT_OF_RANGE = 0x00000001, //<! the measured motor phase resistance is outside of the plausible range
         ERROR_PHASE_INDUCTANCE_OUT_OF_RANGE = 0x00000002, //<! the measured motor phase inductance is outside of the plausible range
         ERROR_ADC_FAILED = 0x00000004,
@@ -94,7 +93,6 @@ public:
 
     enum Encoder_Error_t
     {
-        ERROR_NONE = 0x00000000,
         ERROR_UNSTABLE_GAIN = 0x00000001,
         ERROR_CPR_POLEPAIRS_MISMATCH = 0x00000002,
         ERROR_NO_RESPONSE = 0x00000004,
@@ -104,12 +102,6 @@ public:
         ERROR_ABS_SPI_TIMEOUT = 0x00000040,
         ERROR_ABS_SPI_COM_FAIL = 0x00000080,
         ERROR_ABS_SPI_NOT_READY = 0x00000100
-    };
-
-    enum ThermistorCurrentLimiter_Error_t
-    {
-        ERROR_NONE = 0x00000000,
-        ERROR_OVER_TEMP = 0x00000001 //<! the thermistor temperature upper limit was exceeded
     };
 
     ODriveArduino(Stream &serial);
@@ -122,14 +114,14 @@ public:
     void SetVelocity(int motor_number, float velocity, float current_feedforward);
     void SetCurrent(int motor_number, float current);
     void SetEncoderAbs(int motor_number, int32_t pos_abs);
-    void SetLinearCount(int32_t count);
+    void SetLinearCount(int motor_number, int32_t count);
 
     void TrapezoidalMove(int motor_number, float position);
     void SetRequestedState(int motor_number, AxisState_t requested_state);
-    void move_incremental(float displacement, bool from_input_pos);
-    void start_anticogging_calibration();
-    void watchdog_feed();
-    void clear_errors();
+    void move_incremental(int motor_number, float displacement, bool from_input_pos);
+    void start_anticogging_calibration(int motor_number);
+    void watchdog_feed(int motor_number);
+    void clear_errors(int motor_number);
 
     // Getters
     float GetVelocity(int motor_number);
@@ -151,8 +143,13 @@ public:
 
     int32_t GetEncoderAbs(int motor_number);
 
-    int GetErrors(int motor_number);
+    int GetError(int motor_number);
     String GetErrorString(int motor_number);
+
+    int GetMotorError(int motor_number);
+    String GetMotorErrorString(int motor_number);
+    int GetEncoderError(int motor_number);
+    String GetEncoderErrorString(int motor_number);
 
 
     // General params
@@ -160,7 +157,7 @@ public:
     int32_t readInt();
 
     // State helper
-    bool run_state(int axis, int requested_state, bool wait_for_idle, float timeout = 10.0f);
+    bool run_state(int axis, AxisState_t requested_state, bool wait_for_idle, float timeout = 10.0f);
 
 private:
     String readString();
