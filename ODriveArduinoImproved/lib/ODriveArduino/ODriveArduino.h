@@ -4,35 +4,59 @@
 
 #include "Arduino.h"
 
-/**
+
 class ODriveConfig
 {
+private:
+    int motornum;
+
 public:
-    bool startup_motor_calibration;
-    bool startup_encoder_index_search;
-    bool startup_encoder_offset_calibration;
-    bool startup_closed_loop_control;
-    bool startup_sensorless_control;
-    bool startup_homing;
-    bool enable_step_dir;
-    bool step_dir_always_on;
+    bool get_startup_motor_calibration(int motor_number);
+    bool get_startup_encoder_index_search(int motor_number);
+    bool get_startup_encoder_offset_calibration(int motor_number);
+    bool get_startup_closed_loop_control(int motor_number);
+    bool get_startup_sensorless_control(int motor_number);
+    bool get_startup_homing(int motor_number);
+    bool get_enable_step_dir(int motor_number);
+    bool get_step_dir_always_on(int motor_number);
 
-    float patturns_per_step;
-    float watchdog_timeout;
-    bool enable_watchdog;
-    uint16_t step_gpio_pin;
-    uint16_t dir_gpio_pin;
-    uint32_t can_node_id;
-    bool can_node_id_extended;
-    uint32_t can_heartbeat_rate_ms;
+    float get_patturns_per_step(int motor_number);
+    float get_watchdog_timeout(int motor_number);
+    bool get_enable_watchdog(int motor_number);
+    uint16_t get_step_gpio_pin(int motor_number);
+    uint16_t get_dir_gpio_pin(int motor_number);
+    uint32_t get_can_node_id(int motor_number);
+    bool get_can_node_id_extended(int motor_number);
+    uint32_t get_can_heartbeat_rate_ms(int motor_number);
 
-    ODriveConfig();
+    void set_startup_motor_calibration(int motor_number, bool start_motor_cal);
+    void set_startup_encoder_index_search(int motor_number, bool start_index_search);
+    void set_startup_encoder_offset_calibration(int motor_number, bool start_offset_cal);
+    void set_startup_closed_loop_control(int motor_number, bool start_closed_loop);
+    void set_startup_sensorless_control(int motor_number, bool start_sensorless);
+    void set_startup_homing(int motor_number, bool start_homing);
+    void set_enable_step_dir(int motor_number, bool en_step_dir);
+    void set_step_dir_always_on(int motor_number, bool step_dir_al);
+
+    void set_patturns_per_step(int motor_number, float pat_step);
+    void set_watchdog_timeout(int motor_number, float watch_timeout);
+    void set_enable_watchdog(int motor_number, bool en_watch);
+    void set_step_gpio_pin(int motor_number, uint16_t step_gpio);
+    void set_dir_gpio_pin(int motor_number, uint16_t dir_gpio);
+    void set_can_node_id(int motor_number, uint32_t canID);
+    void set_can_node_id_extended(int motor_number, bool extendedId);
+    void set_can_heartbeat_rate_ms(int motor_number, uint32_t can_heartbeat);
+
+    ODriveConfig(int axis);
 };
-**/
+
 
 class ODriveArduino
 {
 public:
+    ODriveConfig *config0;
+    ODriveConfig *config1;
+
     enum AxisState_t
     {
         AXIS_STATE_UNDEFINED = 0,                  //<! will fall through to idle

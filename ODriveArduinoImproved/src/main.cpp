@@ -73,7 +73,7 @@ void loop() {
     // Run calibration sequence
     if (c == '0' || c == '1') {
       int motornum = c-'0';
-      int requested_state;
+      ODriveArduino::AxisState_t requested_state;
 
       requested_state = ODriveArduino::AXIS_STATE_MOTOR_CALIBRATION;
       Serial << "Axis" << c << ": Requesting state " << requested_state << '\n';
