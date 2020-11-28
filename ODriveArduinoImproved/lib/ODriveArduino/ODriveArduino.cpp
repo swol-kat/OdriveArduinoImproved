@@ -351,3 +351,121 @@ int32_t ODriveArduino::readInt()
 {
     return readString().toInt();
 }
+
+
+
+bool ODriveArduino::get_startup_motor_calibration(int motor_number){
+    serial_ << "r axis" << motor_number << ".config.startup_motor_calibration\n";
+    return (bool)readInt();
+}
+bool ODriveArduino::get_startup_encoder_index_search(int motor_number){
+    serial_ << "r axis" << motor_number << ".config.startup_encoder_index_search\n";
+    return (bool)readInt();
+}
+bool ODriveArduino::get_startup_encoder_offset_calibration(int motor_number){
+    serial_ << "r axis" << motor_number << ".config.startup_encoder_offset_calibration\n";
+    return (bool)readInt();
+}
+bool ODriveArduino::get_startup_closed_loop_control(int motor_number){
+    serial_ << "r axis" << motor_number << ".config.startup_closed_loop_control\n";
+    return (bool)readInt();
+}
+bool ODriveArduino::get_startup_sensorless_control(int motor_number){
+    serial_ << "r axis" << motor_number << ".config.startup_sensorless_control\n";
+    return (bool)readInt();
+}
+bool ODriveArduino::get_startup_homing(int motor_number){
+    serial_ << "r axis" << motor_number << ".config.startup_homing\n";
+    return (bool)readInt();
+}
+bool ODriveArduino::get_enable_step_dir(int motor_number){
+    serial_ << "r axis" << motor_number << ".config.enable_step_dir\n";
+    return (bool)readInt();
+}
+bool ODriveArduino::get_step_dir_always_on(int motor_number){
+    serial_ << "r axis" << motor_number << ".config.step_dir_always_on\n";
+    return (bool)readInt();
+}
+
+float ODriveArduino::get_patturns_per_step(int motor_number){
+    serial_ << "r axis" << motor_number << ".config.patturns_per_step\n";
+    return readFloat();
+}
+float ODriveArduino::get_watchdog_timeout(int motor_number){
+    serial_ << "r axis" << motor_number << ".config.watchdog_timeout\n";
+    return readFloat();
+}
+bool ODriveArduino::get_enable_watchdog(int motor_number){
+    serial_ << "r axis" << motor_number << ".config.enable_watchdog\n";
+    return (bool)readInt();
+}
+uint16_t ODriveArduino::get_step_gpio_pin(int motor_number){
+    serial_ << "r axis" << motor_number << ".config.step_gpio_pin\n";
+    return (uint16_t)readInt();
+}
+uint16_t ODriveArduino::get_dir_gpio_pin(int motor_number){
+    serial_ << "r axis" << motor_number << ".config.dir_gpio_pin\n";
+    return (uint16_t)readInt();
+}
+uint32_t ODriveArduino::get_can_node_id(int motor_number){
+    serial_ << "r axis" << motor_number << ".config.can_node_id\n";
+    return (uint32_t)readInt();
+}
+bool ODriveArduino::get_can_node_id_extended(int motor_number){
+    serial_ << "r axis" << motor_number << ".config.can_node_id_extended\n";
+    return (bool)readInt();
+}
+uint32_t ODriveArduino::get_can_heartbeat_rate_ms(int motor_number){
+    serial_ << "r axis" << motor_number << ".config.can_heartbeat_rate_ms\n";
+    return (uint32_t)readInt();
+}
+
+void ODriveArduino::set_startup_motor_calibration(int motor_number, bool start_motor_cal){
+    serial_ << "w axis" << motor_number << ".config.startup_motor_calibration " << start_motor_cal << "\n";
+}
+void ODriveArduino::set_startup_encoder_index_search(int motor_number, bool start_index_search){
+    serial_ << "w axis" << motor_number << ".config.startup_encoder_index_search " << start_index_search << "\n";
+}
+void ODriveArduino::set_startup_encoder_offset_calibration(int motor_number, bool start_offset_cal){
+    serial_ << "w axis" << motor_number << ".config.startup_encoder_offset_calibration " << start_offset_cal  << "\n";
+}
+void ODriveArduino::set_startup_closed_loop_control(int motor_number, bool start_closed_loop){
+    serial_ << "w axis" << motor_number << ".config.startup_closed_loop_control " << start_closed_loop << "\n";
+}
+void ODriveArduino::set_startup_sensorless_control(int motor_number, bool start_sensorless){
+    serial_ << "w axis" << motor_number << ".config.startup_sensorless_control " << start_sensorless << "\n";
+}
+void ODriveArduino::set_startup_homing(int motor_number, bool start_homing){
+    serial_ << "w axis" << motor_number << ".config.startup_homing " << start_homing << "\n";
+}
+void ODriveArduino::set_enable_step_dir(int motor_number, bool en_step_dir){
+    serial_ << "w axis" << motor_number << ".config.enable_step_dir " << en_step_dir << "\n";
+}
+void ODriveArduino::set_step_dir_always_on(int motor_number, bool step_dir_al){
+    serial_ << "w axis" << motor_number << ".config.step_dir_always_on " << step_dir_al << "\n";
+}
+
+void ODriveArduino::set_patturns_per_step(int motor_number, float pat_step){
+    serial_ << "w axis" << motor_number << ".config.patturns_per_step " << pat_step << "\n";
+}
+void ODriveArduino::set_watchdog_timeout(int motor_number, float watch_timeout){
+ serial_ << "w axis" << motor_number << ".config.watchdog_timeout " << watch_timeout << "\n";
+}
+void ODriveArduino::set_enable_watchdog(int motor_number, bool en_watch){
+serial_ << "w axis" << motor_number << ".config.enable_watchdog " << en_watch << "\n";
+}
+void ODriveArduino::set_step_gpio_pin(int motor_number, uint16_t step_gpio){
+serial_ << "w axis" << motor_number << ".config.step_gpio_pin " << step_gpio << "\n";
+}
+void ODriveArduino::set_dir_gpio_pin(int motor_number, uint16_t dir_gpio){
+    serial_ << "w axis" << motor_number << ".config.dir_gpio_pin " << dir_gpio << "\n";
+}
+void ODriveArduino::set_can_node_id(int motor_number, uint32_t canID){
+serial_ << "w axis" << motor_number << ".config.can_node_id " << canID << "\n";
+}
+void ODriveArduino::set_can_node_id_extended(int motor_number, bool extendedId){
+ serial_ << "w axis" << motor_number << ".config.can_node_id_extended " << extendedId << "\n";
+}
+void ODriveArduino::set_can_heartbeat_rate_ms(int motor_number, uint32_t can_heartbeat){
+ serial_ << "w axis" << motor_number << ".config.can_heartbeat_rate_ms " << can_heartbeat << "\n";
+}
