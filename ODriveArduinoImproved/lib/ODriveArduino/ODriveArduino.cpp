@@ -26,10 +26,7 @@ inline Print &operator<<(Print &obj, float arg)
 }
 
 ODriveArduino::ODriveArduino(Stream &serial)
-    : serial_(serial) {
-        config0 = new ODriveConfig(0);
-        config1 = new ODriveConfig(1);
-    }
+    : serial_(serial) {}
 
 void ODriveArduino::SetPosition(int motor_number, float position)
 {
