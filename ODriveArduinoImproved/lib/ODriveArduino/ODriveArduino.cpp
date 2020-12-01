@@ -94,6 +94,11 @@ void ODriveArduino::clear_errors(int motor_number)
     serial_ << "w axis" << motor_number << ".clear_errors()\n";
 }
 
+void ODriveArduino::reboot(){
+    serial_ << "sr\n";
+}
+
+
 float ODriveArduino::GetVelocity(int motor_number)
 {
     serial_ << "r axis" << motor_number << ".encoder.vel_estimate\n";

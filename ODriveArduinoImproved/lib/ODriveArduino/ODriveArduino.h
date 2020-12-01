@@ -112,6 +112,7 @@ public:
     void start_anticogging_calibration(int motor_number);
     void watchdog_feed(int motor_number);
     void clear_errors(int motor_number);
+    void reboot();
 
     // Getters
     float GetVelocity(int motor_number);

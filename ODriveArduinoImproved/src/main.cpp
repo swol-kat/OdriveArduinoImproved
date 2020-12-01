@@ -39,30 +39,31 @@ HardwareSerial& odrive_serial = Serial1;
 ODriveArduino odrive(odrive_serial);
 
 void setup() {
-  // ODrive uses 115200 baud
-  odrive_serial.begin(115200);
+  // ODrive uses 115200 baudS
+  odrive_serial.begin(250000);
 
   // Serial to PC
   Serial.begin(115200);
   while (!Serial) ; // wait for Arduino Serial Monitor to open
 
-  Serial.println("ODriveArduino");
-  Serial.println("Setting parameters...");
+  Serial.println("ODriveArduino - Swol Cat Edition");
 
-  // In this example we set the same parameters to both motors.
-  // You can of course set them different if you want.
-  // See the documentation or play around in odrivetool to see the available parameters
-  for (int axis = 0; axis < 2; ++axis) {
-    odrive_serial << "w axis" << axis << ".controller.config.vel_limit " << 10.0f << '\n';
-    odrive_serial << "w axis" << axis << ".motor.config.current_lim " << 11.0f << '\n';
+for (int axis = 0; axis < 2; ++axis) {
+    odrive_serial << "w axis" << axis << ".controller.config.vel_limit " << 50.0f << '\n';
+    odrive_serial << "w axis" << axis << ".motor.config.current_lim " << 110.0f << '\n';
     // This ends up writing something like "w axis0.motor.config.current_lim 10.0\n"
   }
+
 
   Serial.println("Ready!");
   Serial.println("Send the character '0' or '1' to calibrate respective motor (you must do this before you can command movement)");
   Serial.println("Send the character 's' to exectue test move");
   Serial.println("Send the character 'b' to read bus voltage");
   Serial.println("Send the character 'p' to read motor positions in a 10s loop");
+  Serial.println("Send the character 'e' to print errors");
+  Serial.println("Send the character 'q' to clear errors");
+  Serial.println("Send the character 'r' to reboot");
+  Serial.println("Send the character 'v' for velocity control at 15 rps");
 }
 
 void loop() {
@@ -91,7 +92,7 @@ void loop() {
     // Sinusoidal test move
     if (c == 's') {
       Serial.println("Executing test move");
-      for (float ph = 0.0f; ph < 6.28318530718f; ph += 0.01f) {
+      for (float ph = 0.0f; ph < 62.8318530718f; ph += 0.1f) {
         float pos_m0 = 2.0f * cos(ph);
         float pos_m1 = 2.0f * sin(ph);
         odrive.SetPosition(0, pos_m0);
@@ -108,15 +109,37 @@ void loop() {
 
     // print motor positions in a 10s loop
     if (c == 'p') {
+      unsigned int count = 0;
       static const unsigned long duration = 10000;
       unsigned long start = millis();
       while(millis() - start < duration) {
         for (int motor = 0; motor < 2; ++motor) {
+          count++;
           odrive_serial << "r axis" << motor << ".encoder.pos_estimate\n";
-          Serial << odrive.readFloat() << '\t';
+          Serial << odrive.readFloat() << "\t" << count << '\t';
         }
         Serial << '\n';
       }
+    }
+
+    if (c == 'e'){
+      Serial << odrive.GetError(0) << '\t' << odrive.GetErrorString(0) << '\n' << odrive.GetError(1) << '\t' << odrive.GetErrorString(1) << '\n';
+    }
+
+    if (c == 'q'){
+      odrive.clear_errors(0);
+      odrive.clear_errors(1);
+      Serial << "Errors Cleared\n";
+    }
+
+    if (c == 'r'){
+      odrive.reboot();
+      Serial << "rebooting\n";
+    }
+
+    if (c == 'v'){
+      odrive.SetVelocity(0, 15.0f);
+      odrive.SetVelocity(1, 15.0f);
     }
   }
 }
