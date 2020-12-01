@@ -1,6 +1,5 @@
 // includes
 #include <HardwareSerial.h>
-#include <SoftwareSerial.h>
 #include <ODriveArduino.h>
 // Printing with stream operator helper functions
 template<class T> inline Print& operator <<(Print &obj,     T arg) { obj.print(arg);    return obj; }
