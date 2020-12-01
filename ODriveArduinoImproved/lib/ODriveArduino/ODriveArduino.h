@@ -5,23 +5,9 @@
 #include "Arduino.h"
 
 
-class ODriveConfig
-{
-private:
-    int motornum;
-
-public:
-    
-
-    ODriveConfig(int axis);
-};
-
-
 class ODriveArduino
 {
 public:
-    ODriveConfig *config0;
-    ODriveConfig *config1;
 
     enum AxisState_t
     {
